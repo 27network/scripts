@@ -38,20 +38,32 @@ if [ -f "$HOME/.zshrc" ]; then
 	SHELL_RC="$HOME/.zshrc"
 fi
 
-append_shellrc() {
-	VAR=$1
-	VALUE=$2
-	SKIP_VERIFY=$3
-	if [ "$SKIP_VERIFY" -eq 0 ]; then
-		if grep -q "$VAR" "$SHELL_RC"; then
-			return
-		fi
-	fi
-	if [ -f "$SHELL_RC" ]; then
-		echo "export $VAR=\"$VALUE\"" >> "$SHELL_RC"
-		source "$SHELL_RC"
-		success "Added '$VAR=$VALUE' to $SHELL_RC"
-	else
+check_shellrc() {
+	if [ ! -f "$SHELL_RC" ]; then
 		fail "Couldn't find .shellrc, aborting..." $INVALID_SHELLRC
 	fi
+}
+
+append_shellrc() {
+	check_shellrc
+	echo "$1" >> "$SHELL_RC"
+}
+
+alias_shellrc() {
+	check_shellrc
+	ALIAS=$1
+	VALUE=$2
+	append_shellrc "alias $ALIAS=\"$VALUE\""
+	alias $ALIAS="$VALUE"
+	success "Aliased '$ALIAS' to '$VALUE' in $SHELL_RC"
+}
+
+export_shellrc() {
+	check_shellrc
+
+	VAR=$1
+	VALUE=$2
+	append_shellrc "export $VAR=\"$VALUE\""
+	export $VAR="$VALUE"
+	success "Added '$VAR=$VALUE' to $SHELL_RC"
 }

@@ -7,7 +7,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://scripts.xtrm.me/_utils.sh -o /tmp/u
 source /tmp/utils.sh
 
 # Ensure rust is installed
-curl --proto '=https' --tlsv1.2 -sSf https://scripts.xtrm.me/rust.sh | bash -- -y
+curl --proto '=https' --tlsv1.2 -sSf https://scripts.xtrm.me/rust.sh | sh -s -- -y
 
 # Source shellrc
 source "$SHELL_RC"
@@ -22,6 +22,6 @@ if [ "$CONFIRM" != "y" ] && [ "$CONFIRM" != "Y" ]; then
 	success "alright."
 	exit $SUCCESS
 fi
-append_shellrc "alias ls='exa --group-directories-first --icons'" 1
-append_shellrc "alias l='exa -laHb --group-directories-first --icons'" 1
+alias_shellrc "ls" 'exa --group-directories-first --icons'
+alias_shellrc "l" 'exa -laHb --group-directories-first --icons'
 success "Done!"

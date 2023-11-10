@@ -3,14 +3,19 @@
 # Installs Rust & ugdb
 
 # Fetch util functions
+rm -rf /tmp/utils.sh
 curl --proto '=https' --tlsv1.2 -sSf https://scripts.xtrm.me/_utils.sh -o /tmp/utils.sh
 source /tmp/utils.sh
 
-# Ensure rust is installed
-curl --proto '=https' --tlsv1.2 -sSf https://scripts.xtrm.me/rust.sh | bash -- -y
+wexit() {
+	# noop
+	info "Exiting with code $1"
+}
 
-# Source shellrc
-source "$SHELL_RC"
+# Ensure rust is installed
+rm -rf /tmp/rust.sh
+curl --proto '=https' --tlsv1.2 -sSf https://scripts.xtrm.me/rust.sh -o /tmp/rust.sh
+source /tmp/rust.sh
 
 # Install ugdb
 cargo install ugdb

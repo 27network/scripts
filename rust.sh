@@ -15,6 +15,13 @@ MISSING_COMMAND=4
 INVALID_SHELLRC=5
 # END Exit codes
 
+# add wexit function if it doesnt exist
+if ! command -v wexit >/dev/null 2>&1; then
+	wexit() {
+		exit $1
+	}
+fi
+
 # Fetch log functions
 curl --proto '=https' --tlsv1.2 -sSf https://scripts.xtrm.me/_utils.sh -o /tmp/utils.sh
 source /tmp/utils.sh
@@ -28,18 +35,18 @@ while getopts ":hvy" opt; do
 			echo "  -y  Skip confirmation prompt(s)"
 			echo "  -h  Show this help message"
 			echo "  -v  Show version"
-			exit $SUCCESS
+			wexit $SUCCESS
 			;;
 		v)
 			echo "Rust Installer v$VERSION by @$AUTHOR"
-			exit $SUCCESS
+			wexit $SUCCESS
 			;;
 		y)
 			SKIP_PROMPT=1
 			;;
 		\?)
 			echo "Invalid option: -$OPTARG" >&2
-			exit $MISSING_COMMAND
+			wexit $MISSING_COMMAND
 			;;
 	esac
 done
@@ -70,9 +77,9 @@ info "Installing Rust..."
 
 # Setup environment variables
 log "Setting up environment variables..."
-append_shellrc "CARGO_HOME" "$HOME/sgoinfre/.cargo" 0
-append_shellrc "RUSTUP_HOME" "$HOME/sgoinfre/.rustup" 0 
-append_shellrc "PATH" "\$CARGO_HOME/bin:\$RUSTUP_HOME/bin:\$PATH" 1
+export_shellrc "CARGO_HOME" "$HOME/sgoinfre/.cargo" 
+export_shellrc "RUSTUP_HOME" "$HOME/sgoinfre/.rustup" 
+export_shellrc "PATH" "\$CARGO_HOME/bin:\$RUSTUP_HOME/bin:\$PATH" 
 
 # Install rust
 log "Fetching rustup-init.sh"
