@@ -2,13 +2,14 @@
 
 # Installs Rust & ugdb
 
-noexit() {
+callback() {
 	EXIT_FUNC=exit
 	# Install ugdb
 	cargo install ugdb || fail "Failed to install ugdb"
 	success "Done!"
+	wexit $SUCCESS
 }
-EXIT_FUNC=noexit
+EXIT_FUNC=callback
 
 # Fetch util functions
 rm -rf /tmp/utils.sh
