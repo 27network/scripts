@@ -5,7 +5,7 @@
 in your shell:
 
 ```bash
-$SHELL <(curl https://scripts.xtrm.me/<script-name>.sh
+$SHELL <(curl https://scripts.xtrm.me/<script-name>.sh)
 ```
 
 ## scripts
