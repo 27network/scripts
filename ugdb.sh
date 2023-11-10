@@ -3,8 +3,10 @@
 # Installs Rust & ugdb
 
 noexit() {
-	# noop
-	info "Exiting with code $1"
+	EXIT_FUNC=exit
+	# Install ugdb
+	cargo install ugdb || fail "Failed to install ugdb"
+	success "Done!"
 }
 EXIT_FUNC=noexit
 
@@ -17,7 +19,3 @@ source /tmp/utils.sh
 rm -rf /tmp/rust.sh
 curl --proto '=https' --tlsv1.2 -sSf https://scripts.xtrm.me/rust.sh -o /tmp/rust.sh
 source /tmp/rust.sh
-
-# Install ugdb
-cargo install ugdb
-success "Done!"
