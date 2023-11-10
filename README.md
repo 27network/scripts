@@ -18,7 +18,7 @@ Allows installing the Rust toolchain and components easily (by default, does so 
 
 Installs an alternative frontend for gdb that's subjectively better.
 
-## coolutils.sh
+### coolutils.sh
 
 Installs:
 - `exa`, an `ls` alternative with colors & icons
