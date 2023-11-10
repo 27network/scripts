@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Exit wrapper
+
+if [ -z "$EXIT_FUNC" ]; then
+	EXIT_FUNC="exit"
+fi
+
+wexit() {
+	$EXIT_FUNC $1
+}
+
 # cool logging functions
 
 log() {
@@ -25,7 +35,7 @@ error() {
 fail() {
 	printf "\r\033[1;31m!\033[0m \033[0;90m>\033[0m $1\n"
 	echo ''
-	exit $2
+	$EXIT_FUNC $2
 }
 
 # shell rc stuff

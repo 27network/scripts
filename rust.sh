@@ -15,13 +15,6 @@ MISSING_COMMAND=4
 INVALID_SHELLRC=5
 # END Exit codes
 
-# add wexit function if it doesnt exist
-if ! command -v wexit >/dev/null 2>&1; then
-	wexit() {
-		exit $1
-	}
-fi
-
 # Fetch log functions
 curl --proto '=https' --tlsv1.2 -sSf https://scripts.xtrm.me/_utils.sh -o /tmp/utils.sh
 source /tmp/utils.sh
