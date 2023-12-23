@@ -8,6 +8,11 @@ if [ $# -lt 1 ]; then
 fi
 
 PROJECT_NAME=$1
+if [ "$PROJECT_NAME" = "-e" ]; then
+	$EDITOR $0
+	return 0
+fi
+
 if [ "$PROJECT_NAME" = "." ]; then
 	PROJECT_NAME=$(basename $(pwd))
 fi
@@ -28,36 +33,36 @@ if [ "$PROJECT_NAME" = "scripts" ]; then
 fi
 PROJECT_DIR="$WORKDIR/$PROJECT_NAME"
 
-function clone() {
+function _proj_clone() {
 	cd $WORKDIR
 	git clone https://github.com/$ORG/$PROJECT_NAME.git --recursive
 	cd $PROJECT_DIR
 }
 
-function goto() {
-	if [ ! -d $PROJECT_DIR ]; then
-		clone
-	fi
-	pull
-}
-
-function pull() {
+function _proj_update() {
 	cd $PROJECT_DIR
-	git pull
+	git pull 
 }
 
-function push() {
+function _proj_goto() {
+	if [ ! -d $PROJECT_DIR ]; then
+		_proj_clone
+	fi
+	_proj_update
+}
+
+function _proj_push() {
 	cd $PROJECT_DIR
 	git add .
 	git commit
 	git push --set-upstream origin main
 }
 
-function clean() {
+function _proj_clean() {
 	rm -rf $PROJECT_DIR
 }
 
-function create() {
+function _proj_create() {
 	cd $WORKDIR
 	gh repo create $ORG/$PROJECT_NAME --public --clone || return -1
 	cd $PROJECT_DIR
@@ -81,38 +86,38 @@ function create() {
 			git submodule add https://github.com/$ORG/libft-neo.git libft
 		fi
 	fi
-	push	
+	_proj_push
 }
 
-function reset() {
-	clean
-	clone
+function _proj_reset() {
+	_proj_clean
+	_proj_clone
 }
 
-ACTIONS=("goto" "pull" "push" "clean" "create" "clone" "reset")
+ACTIONS=("goto" "update" "push" "clean" "create" "clone" "reset")
 
 # actions:
 case $ACTION in
 	"goto")
-		goto
+		_proj_goto
 		;;
-	"pull")
-		pull
+	"update")
+		_proj_update
 		;;
 	"push")
-		push
+		_proj_push
 		;;
 	"clean")
-		clean
+		_proj_clean
 		;;
 	"create")
-		create
+		_proj_create
 		;;
 	"clone")
-		clone
+		_proj_clone
 		;;
 	"reset")
-		reset
+		_proj_reset
 		;;
 	*)
 		echo "Usage: $(basename $0) $1 <action>"
