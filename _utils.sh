@@ -10,6 +10,11 @@ wexit() {
 	$EXIT_FUNC $1
 }
 
+# vars
+
+# this is so fucking stupid
+COMMON_CORE_PROJECTS=("libft" "ft_printf" "get_next_line" "born2beroot" "push_swap" "fract-ol" "fdf" "so_long" "minitalk" "pipex" "minishell" "philosophers" "inception" "netpractice" "cub3d" "miniRT" "cpp-modules" "webserv" "ft_irc" "ft_transcendence")
+
 # cool logging functions
 
 log() {

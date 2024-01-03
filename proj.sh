@@ -78,8 +78,6 @@ if [ $# -lt 2 ]; then
 fi
 ACTION=$(echo $ACTION | tr '[:upper:]' '[:lower:]')
 
-# this is so fucking stupid
-COMMON_CORE_PROJECTS=("libft" "ft_printf" "get_next_line" "born2beroot" "push_swap" "fract-ol" "fdf" "so_long" "minitalk" "pipex" "minishell" "philosophers" "inception" "netpractice" "cub3d" "miniRT" "cpp-modules" "webserv" "ft_irc" "ft_transcendence")
 WORKDIR="$HOME/Work/42/common-core"
 if [[ ! " ${COMMON_CORE_PROJECTS[@]} " =~ " ${PROJECT_NAME} " ]]; then
 	WORKDIR="$HOME/Work/42/projects"
